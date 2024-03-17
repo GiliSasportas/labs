@@ -27,7 +27,7 @@ contract Owner{
        }       
        }
         require(msg.sender == owner, "Only owner can call this function");
-        _; // This indicates that the function code follows this modifier will be executed
+        _; 
     }
        
    function withdraw(uint256 num) payable  public onlyOwner{

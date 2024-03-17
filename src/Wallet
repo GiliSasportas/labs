@@ -5,25 +5,25 @@ pragma solidity >=0.6.12 <0.9.0;
 contract Owner{
 
     address public owner;
-    mapping (address => uint256) public balances;
+    // mapping (address => uint256) public balances;
     address[] public  owners;
 
     constructor(){
         owner=msg.sender;
-        
-
     }
+    
     receive()external payable {}
 
-     function receiveit() external payable {
-        balances[msg.sender] += msg.value;
-    }
+    //  function receiveit() external payable {
+    //     balances[msg.sender] += msg.value;
+    // }
 
     modifier onlyOwner() {
      bool flag=false;
        for(uint i=0; i<owners.length ;i++){
        if(owners[i]==msg.sender){
          flag=true;
+         break;
        }       
        }
        

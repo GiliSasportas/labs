@@ -11,7 +11,7 @@ contract Owner{
     constructor(){
         owner=msg.sender;
     }
-    
+
     receive()external payable {}
 
     //  function receiveit() external payable {
@@ -42,6 +42,7 @@ contract Owner{
 
    function addOwner(address newOwner)public {
     require(owner==msg.sender,"");
+    require(owners.length<3," There are already 3 collectors ");
     owners.push(newOwner);
   
    }

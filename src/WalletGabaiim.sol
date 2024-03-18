@@ -20,7 +20,7 @@ contract WalletGabaiim {
    
     function addGabai(address newGabai) public {
         require(msg.sender == owner ,"not owner");
-        require(gabaiim[newGabai],"the gabai already exsist");
+        require(!gabaiim[newGabai],"the gabai already exsist");
        if(countGabaiim < 3){
             countGabaiim++;
             gabaiim[msg.sender] = true;
@@ -32,8 +32,8 @@ contract WalletGabaiim {
         
     function changeGabai(address oldGabai,address newGabai)public{
         require(msg.sender==owner,"You do not have permission to do so");
-        require(!gabaiim[oldGabai],"the adress oldGabai not gabai");
-        require(gabaiim[newGabai], "the new gabai already gabai");
+        require(gabaiim[oldGabai],"the adress oldGabai not gabai");
+        require(!gabaiim[newGabai], "the new gabai already gabai");
         gabaiim[oldGabai] = false;
         gabaiim[newGabai] = true;
     }

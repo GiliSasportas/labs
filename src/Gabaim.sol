@@ -31,17 +31,22 @@ contract Owner{
 
    function addGabay(address key)public {
     require(owner==msg.sender,"you not owner");
-    if(count<3){
+    require(owners[key]==false,""); 
+   if(count<3){
       owners[key]=true;
       count++;
     }
+    else{
+      revert("There are already 3 Gabaim");
+    }
    }
 
-   function changeGabay(address key,address newkey) public {
+   function changeGabay(address keyold,address newkey) public {
        require(owner==msg.sender,"you not owner");
-       if(owners[key]==true){
-        owners[key]=false;
+       require(owners[keyold]==true,"the key not exist");
+       require(owners[newkey]==false,"the key already exist");
+        owners[keyold]=false;
         owners[newkey]=true;
-       }
+       
 }
 }

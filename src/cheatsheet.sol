@@ -2,7 +2,7 @@
 pragma solidity ^0.8.15;
 
 interface ITest {
-    function payMe() external payable  {}
+       function payMe() external payable;
 }
 abstract contract TestBase{
     //a virtual function without implement must be implement;

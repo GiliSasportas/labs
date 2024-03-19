@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.15;
-// SPDX-License-Identifier: MIT
-pragma abicoder v2;
+
 interface ITest {
     function payMe() external payable  {}
 }

@@ -10,6 +10,7 @@ import "@hack/wallet/Gabaim.sol";
 contract testGabaim is Test {
     Gabaim public wallet;
 
+
     function setUp() public {
         wallet = new Gabaim();
     }

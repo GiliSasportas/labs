@@ -4,30 +4,38 @@ pragma solidity ^0.8.15;
 import "foundry-huff/HuffDeployer.sol";
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
-import "@hack/Gabaim.sol";
+import "@hack/wallet/Gabaim.sol";
 
 
 contract testGabaim is Test {
-
-    Gabaim public owner;
-    address newGabay=0x321;
+    Owner public wallet;
 
     function setUp() public {
-        owner = new Gabaim();
+        wallet = new Owner();
     }
 
-     function testAddGabay() public {
-        owner.addGabay(newGabay);
-        assert.equal(owner.count(), 1, "Count should be incremented to 1");
-        assert.isTrue(owner.owners(address(newGabay)), "Current address should be added as Gabay");
+//משיכה
+       function testWithdraw() public{
+        uint balances= address(wallet).balance;
+        uint sumWithdraw=100 ;
+       //assert.isTrue(address(wallet),true,"you can not withdraw");
+         wallet.withdraw(sumWithdraw);
+        assertEq(address(wallet).balance, balances - sumWithdraw,"withdraw failed");   
+         }
+
+    function testgetBalance() view public{
+        uint balanceOwner = wallet.getBalance();
+         assert(balanceOwner==address(wallet).balance);
     }
 
-     function testChangeGabay() public {
-        address oldKey = newGabay;
-        address newKey = address(0x123); 
-        owner.changeGabay(oldKey, newKey); 
-        assert.isFalse(owner.owners(oldKey), "Old key should be removed from owners mapping");
-        assert.isTrue(owner.owners(newKey), "New key should be added to owners mapping");
-    }
- 
+//הפקדה
+
+function testReceive() payable public {
+      uint num = 50; 
+      uint initialBalance = wallet.getBalance(); 
+      payable(wallet).transfer(10);
+      assertEq(wallet.getBalance(), initialBalance + num, "Balance should increase by num after transfer");
+      wallet.withdraw(2);
+     }
+
 }

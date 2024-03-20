@@ -8,34 +8,28 @@ import "@hack/wallet/Gabaim.sol";
 
 
 contract testGabaim is Test {
-    Owner public wallet;
+    Gabaim public wallet;
 
     function setUp() public {
-        wallet = new Owner();
+        wallet = new Gabaim();
     }
-
-//משיכה
-       function testWithdraw() public{
-        uint balances= address(wallet).balance;
-        uint sumWithdraw=100 ;
-       //assert.isTrue(address(wallet),true,"you can not withdraw");
-         wallet.withdraw(sumWithdraw);
-        assertEq(address(wallet).balance, balances - sumWithdraw,"withdraw failed");   
-         }
 
     function testgetBalance() view public{
         uint balanceOwner = wallet.getBalance();
          assert(balanceOwner==address(wallet).balance);
     }
 
-//הפקדה
+    function testWithdraw() public{
+        uint balances= wallet.getBalance();
+       //assert.isTrue(address(wallet),true,"you can not withdraw");
+         wallet.withdraw(100);
+        assertEq(wallet.getBalance(), balances - 100,"withdraw failed");   
+    }
 
-function testReceive() payable public {
-      uint num = 50; 
+    function testDeposite() payable public {
       uint initialBalance = wallet.getBalance(); 
       payable(wallet).transfer(10);
-      assertEq(wallet.getBalance(), initialBalance + num, "Balance should increase by num after transfer");
-      wallet.withdraw(2);
-     }
+      assertEq(wallet.getBalance(), initialBalance + 10, "Balance should increase by num after transfer");
+    }
 
 }

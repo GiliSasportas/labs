@@ -21,16 +21,36 @@ contract testGabaim is Test {
     }
 
     function testWithdraw() public{
+        
+        payable(wallet).transfer(100);
         uint balances= wallet.getBalance();
-       //assert.isTrue(address(wallet),true,"you can not withdraw");
-         wallet.withdraw(100);
-        assertEq(wallet.getBalance(), balances - 100,"withdraw failed");   
+        //uint sum=100;
+        wallet.addGabay(vm.addr(1));
+        vm.prank(vm.addr(1));
+        wallet.withdraw(50);
+        assertEq(wallet.getBalance(), balances - 50,"withdraw failed");   
     }
 
     function testDeposite() payable public {
       uint initialBalance = wallet.getBalance(); 
-      payable(wallet).transfer(10);
-      assertEq(wallet.getBalance(), initialBalance + 10, "Balance should increase by num after transfer");
+      uint sum=10;
+      payable(wallet).transfer(sum);
+      assertEq(wallet.getBalance(), initialBalance + sum, "Balance should increase by num after transfer");
+    }
+
+    function testAddGabay() public{
+        wallet.addGabay(address(1));
+        assertEq(wallet.countGabaim(),1);
+        assertEq(wallet.owners(address(1)),true);
+    }
+
+    function testHaveTreeGabaim() public{
+        wallet.addGabay(address(1));
+        wallet.addGabay(address(2));
+        wallet.addGabay(address(3));
+        assertEq(wallet.countGabaim(),3);
+        vm.expectRevert();
+        wallet.addGabay(address(4));     
     }
 
 }

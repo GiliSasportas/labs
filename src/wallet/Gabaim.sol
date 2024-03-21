@@ -6,7 +6,7 @@ contract Gabaim{
 
     address public owner;
      mapping(address => bool) public owners;
-     uint count=0;
+     uint public countGabaim=0;
 
     constructor(){
         owner=msg.sender;
@@ -32,9 +32,9 @@ contract Gabaim{
    function addGabay(address key)public {
     require(owner==msg.sender,"you not owner");
     require(owners[key]==false,""); 
-   if(count<3){
+   if(countGabaim<3){
       owners[key]=true;
-      count++;
+      countGabaim++;
     }
     else{
       revert("There are already 3 Gabaim");
@@ -49,4 +49,5 @@ contract Gabaim{
         owners[newkey]=true;
        
 }
+
 }

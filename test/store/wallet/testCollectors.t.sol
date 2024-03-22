@@ -8,6 +8,8 @@ import "@hack/wallet/Collectors.sol";
 
 
 contract testCollectors is Test {
+
+
     Collectors public wallet;
 
 

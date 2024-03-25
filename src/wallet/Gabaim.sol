@@ -6,7 +6,7 @@ contract Gabaim{
 
     address public owner;
      mapping(address => bool) public owners;
-     uint public countGabaim=0;
+     uint public countowners=0;
 
     constructor(){
         owner=msg.sender;
@@ -15,29 +15,29 @@ contract Gabaim{
     receive()external payable {}
 
 
-    modifier isOrOwnerGabai() {
-       require(owners[msg.sender]==true || msg.sender==owner,"not owner or gabai");
+    modifier isOrOwnerGabay() {
+       require(owners[msg.sender]==true || msg.sender==owner,"not owner or Gabay");
         _; 
     }
        
-   function withdraw(uint256 num) payable  public isOrOwnerGabai{
+   function withdraw(uint256 num) payable  public isOrOwnerGabay{
      payable(msg.sender).transfer(num);
    }
 
 
-   function getBalance() public view returns(uint){
+   function getBalance() public view returns(uint256){
     return address(this).balance;
    }
 
    function addGabay(address key)public {
     require(owner==msg.sender,"you not owner");
     require(owners[key]==false,""); 
-   if(countGabaim<3){
+   if(countowners<3){
       owners[key]=true;
-      countGabaim++;
+      countowners++;
     }
     else{
-      revert("There are already 3 Gabaim");
+      revert("There are already 3 owners");
     }
    }
 

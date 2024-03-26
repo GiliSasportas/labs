@@ -35,7 +35,7 @@ contract testGabaim is Test {
 
     function testDeposite() payable public {
         uint initialBalance = wallet.getBalance(); 
-        uint sum=10;
+        uint sum=10;    
         payable(wallet).transfer(sum);
         assertEq(wallet.getBalance(), initialBalance + sum, "Balance should increase by num after transfer");
     }
@@ -44,6 +44,11 @@ contract testGabaim is Test {
         wallet.addGabay(address(10));
         assertEq(wallet.countowners(),1);
         assertEq(wallet.owners(address(10)),true);
+
+        address d = vm.addr(1);
+        vm.prank(d);
+        vm.expectRevert();
+        wallet.addGabay(address(8));
     }
 
     function testHaveTreeGabaim() public{
@@ -71,8 +76,7 @@ contract testGabaim is Test {
         wallet.addGabay(address(4));
         vm.expectRevert();
         wallet.changeGabay(address(5),address(3));
-     
-
     }
+
 
 }

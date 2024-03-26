@@ -1,0 +1,7 @@
+shape:sequence_diagram
+Alice -> LidO :ETH
+LidO -> Ethereum network :ETH
+LidO -> Alice : stETH
+Alice -> 
+
+

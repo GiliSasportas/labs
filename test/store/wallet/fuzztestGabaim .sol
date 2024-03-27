@@ -38,7 +38,6 @@ contract fuzztestGabaim is Test {
       wallet.addGabay(ad);
       assertEq(wallet.countowners(),1);
       assertEq(wallet.owners(address(ad)),true);
-     
       vm.expectRevert("the gabay already exist");
        wallet.addGabay(ad);
     }

@@ -17,7 +17,7 @@ contract testGabaim is Test {
 
     function testgetBalance() view public{
         uint balanceOwner = wallet.getBalance();
-         assert(balanceOwner==address(wallet).balance);
+        assert(balanceOwner==address(wallet).balance);
     }
 
     function testWithdraw() public{ 
@@ -44,8 +44,8 @@ contract testGabaim is Test {
         assertEq(wallet.owners(address(10)),true);
         address d = vm.addr(1);
         vm.startPrank(d);
-        vm.expectRevert();
-        wallet.addGabay(address(8));// now wallet not msg.sender
+        vm.expectRevert("you not owner");
+        wallet.addGabay(address(8));
         vm.stopPrank();
     }
 
@@ -54,7 +54,7 @@ contract testGabaim is Test {
         wallet.addGabay(address(8));
         wallet.addGabay(address(11));
         assertEq(wallet.countowners(),3);
-        vm.expectRevert();
+        vm.expectRevert("There are already 3 owners");
         wallet.addGabay(address(2));     
     }
 
@@ -72,7 +72,7 @@ contract testGabaim is Test {
 
     function tesFaildtchangeGabay() public {
         wallet.addGabay(address(4));
-        vm.expectRevert();
+        vm.expectRevert("Thr Gabay not exist");
         wallet.changeGabay(address(5),address(3));
     }
 }

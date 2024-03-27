@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.12 <0.9.0;
 
-
 contract Gabaim{
 
-    address public owner;
+     address public owner;
      mapping(address => bool) public owners;
      uint public countowners=0;
 
@@ -20,34 +19,28 @@ contract Gabaim{
         _; 
     }
        
-   function withdraw(uint256 num) payable  public isOrOwnerGabay{
-     payable(msg.sender).transfer(num);
-   }
+    function withdraw(uint256 num) payable  public isOrOwnerGabay{
+       payable(msg.sender).transfer(num);
+    }
 
 
-   function getBalance() public view returns(uint256){
-    return address(this).balance;
-   }
+    function getBalance() public view returns(uint256){
+      return address(this).balance;
+    }
 
-   function addGabay(address key)public {
-    require(owner==msg.sender,"you not owner");
-    require(owners[key]==false,""); 
-   if(countowners<3){
+    function addGabay(address key)public {
+      require(owner==msg.sender,"you not owner");
+      require(owners[key]==false,"The Gabay already exist"); 
+      require(countowners<3 ,"There are already 3 owners");
       owners[key]=true;
-      countowners++;
+      countowners++; 
     }
-    else{
-      revert("There are already 3 owners");
-    }
-   }
 
-   function changeGabay(address keyold,address newkey) public {
+    function changeGabay(address keyold,address newkey) public {
        require(owner==msg.sender,"you not owner");
        require(owners[keyold]==true,"the key not exist");
        require(owners[newkey]==false,"the key already exist");
-        owners[keyold]=false;
-        owners[newkey]=true;
-       
-}
-
+       delete(owners[keyold]);
+       owners[newkey]=true;
+    }
 }

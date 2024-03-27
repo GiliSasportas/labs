@@ -9,9 +9,7 @@ import "@hack/wallet/Gabaim.sol";
 
 contract testGabaim is Test {
 
-
     Gabaim public wallet;
-
 
     function setUp() public {
         wallet = new Gabaim();
@@ -77,6 +75,4 @@ contract testGabaim is Test {
         vm.expectRevert();
         wallet.changeGabay(address(5),address(3));
     }
-
-
 }

@@ -25,12 +25,12 @@ contract testGabaim is Test {
     function testWithdraw() public{ 
         payable(wallet).transfer(100);
         uint balances= wallet.getBalance();
-        address addC=vm.addr(20);
-        wallet.addGabay(addC);
-        vm.prank(addC);
+        address add=vm.addr(20);
+        wallet.addGabay(add);
+        vm.startPrank(add);
         wallet.withdraw(50);
         assertEq(wallet.getBalance(), balances - 50,"withdraw failed");   
-
+        vm.stopPrank();
     }
 
     function testDeposite() payable public {
@@ -44,11 +44,11 @@ contract testGabaim is Test {
         wallet.addGabay(address(10));
         assertEq(wallet.countowners(),1);
         assertEq(wallet.owners(address(10)),true);
-
         address d = vm.addr(1);
-        vm.prank(d);
+        vm.startPrank(d);
         vm.expectRevert();
-        wallet.addGabay(address(8));
+        wallet.addGabay(address(8));// now wallet not msg.sender
+        vm.stopPrank();
     }
 
     function testHaveTreeGabaim() public{

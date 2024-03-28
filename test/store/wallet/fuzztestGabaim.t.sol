@@ -9,21 +9,22 @@ import "@hack/wallet/Gabaim.sol";
 
 contract fuzztestGabaim is Test {
 
-     Gabaim public wallet;
+    Gabaim public wallet;
 
-     function setUp() public {
-        wallet = new Gabaim();
+    function setUp() public {
+      wallet = new Gabaim();
     }
 
-     function testDeposite(uint sum) public {
-        uint initialBalance = wallet.getBalance();
-        address ad=vm.addr(20);
-        vm.startPrank(ad);
-        vm.deal(ad,sum);
-        payable(wallet).transfer(sum);
-        assertEq(wallet.getBalance(), initialBalance + sum, "Balance should increase by num after transfer");
-        vm.stopPrank();
+    function testDeposite(uint sum) public {
+      uint initialBalance = wallet.getBalance();
+      address ad=vm.addr(20);
+      vm.startPrank(ad);
+      vm.deal(ad,sum);
+      payable(wallet).transfer(sum);
+      assertEq(wallet.getBalance(), initialBalance + sum, "Balance should increase by num after transfer");
+      vm.stopPrank();
     }
+
     function fuzztestWithdraw(uint sum) payable public {
       payable(wallet).transfer(sum);
       uint balances = wallet.getBalance();
@@ -40,18 +41,16 @@ contract fuzztestGabaim is Test {
       assertEq(wallet.owners(address(ad)),true);
     }
 
-     function testaddGabayAlreadyExist(address ad) public{
-      wallet.addGabay(address(ad));
+     function testaddGabayAlreadyExist(address z) public{
+      wallet.addGabay(address(z));
       assertEq(wallet.countowners(),1);
-      assertEq(wallet.owners(address(ad)),true);
-      vm.expectRevert("the gabay already exist");
-      wallet.addGabay(address(ad));
+      assertEq(wallet.owners(address(z)),true);
+      vm.expectRevert("The Gabay already exist");
+      wallet.addGabay(address(z));
     }
 
-
-
    function testNotOwnerAddGabay(address ad) public{
-      address d= vm.addr(12);
+       address d= vm.addr(12);
        vm.startPrank(d);
        vm.expectRevert("you not owner");
        wallet.addGabay(address(ad));
@@ -68,10 +67,13 @@ contract fuzztestGabaim is Test {
     }
 
     function testChangeGabay(address adold, address adnew) public{
+      vm.expectRevert("Addresses must be different");
+      assertEq(address(adold),address(adnew));
+      console.log("in change gabay");
+      console.log("log",address(adold),address(adnew));
       wallet.addGabay(address(adold));
-      wallet.changeGabay(adold,adnew);
+      wallet.changeGabay(address(adold),address(adnew));
       assertEq(wallet.owners(address(adold)),false);
       assertEq(wallet.owners(address(adnew)),true);
     }
-
 }

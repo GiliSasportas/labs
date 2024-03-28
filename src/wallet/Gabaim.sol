@@ -38,6 +38,7 @@ contract Gabaim{
 
     function changeGabay(address keyold,address newkey) public {
        require(owner==msg.sender,"you not owner");
+       require(keyold != newkey, "Addresses must be different");
        require(owners[keyold]==true,"the key not exist");
        require(owners[newkey]==false,"the key already exist");
        delete(owners[keyold]);

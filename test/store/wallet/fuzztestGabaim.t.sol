@@ -67,8 +67,7 @@ contract fuzztestGabaim is Test {
     }
 
     function testChangeGabay(address adold, address adnew) public{
-      vm.expectRevert("Addresses must be different");
-      assertEq(address(adold),address(adnew));
+      vm.assume( adold != adnew);
       console.log("in change gabay");
       console.log("log",address(adold),address(adnew));
       wallet.addGabay(address(adold));

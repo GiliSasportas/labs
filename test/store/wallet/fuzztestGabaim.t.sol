@@ -25,37 +25,19 @@ contract fuzztestGabaim is Test {
       vm.stopPrank();
     }
 
-    // function testWithdraw(uint256 sum) payable public {
-    //   console.log("sum",sum);
-    //   console.log("in whithdraw");
-    //   payable(wallet).transfer(100000000000);
-    //   uint balances = wallet.getBalance();
-    //   console.log("balances",balances);
-    //   address ad = vm.addr(12);
-    //   wallet.addGabay(ad);
-     
-    
-    //   vm.prank(ad);
-    //   require(sum<balances);
-    //   wallet.withdraw(sum);
-    //   console.log("balances2",balances);
-    //   assertEq(wallet.getBalance(),balances-sum);
-      
-      
-    // }
-
-
- function testWithdraw(uint256 sum) public{ 
-  cp
-        payable(wallet).transfer(100);
-        uint balances= wallet.getBalance();
-        address add=vm.addr(20);
-        wallet.addGabay(add);
-        vm.startPrank(add);
-        wallet.withdraw(sum);
-        assertEq(wallet.getBalance(), balances - sum,"withdraw failed");   
-        vm.stopPrank();
+    function testWithdraw(uint256 sum) public{ 
+      console.log(sum,"sum");
+      //payable(wallet).transfer(10000);
+      uint balances= wallet.getBalance();
+      address add=vm.addr(20);
+      wallet.addGabay(add);
+      vm.startPrank(add);
+      deal(add,sum+100);
+      wallet.withdraw(sum);
+      assertEq(wallet.getBalance(), balances - sum,"withdraw failed");   
+      vm.stopPrank();
     }
+
     function testaddGabay(address Gabay) public{
       wallet.addGabay(address(Gabay));
       assertEq(wallet.countowners(),1);
@@ -71,20 +53,20 @@ contract fuzztestGabaim is Test {
     }
 
    function testNotOwnerAddGabay(address Gabay) public{
-       address d= vm.addr(12);
-       vm.startPrank(d);
-       vm.expectRevert("you not owner");
-       wallet.addGabay(address(Gabay));
-       vm.stopPrank();
+      address d= vm.addr(12);
+      vm.startPrank(d);
+      vm.expectRevert("you not owner");
+      wallet.addGabay(address(Gabay));
+      vm.stopPrank();
    }
 
     function testHaveTreeGabaim(address Gabay) public{
-        wallet.addGabay(vm.addr(1));
-        wallet.addGabay(vm.addr(2));
-        wallet.addGabay(vm.addr(3));
-        assertEq(wallet.countowners(),3);
-        vm.expectRevert("There are already 3 owners");
-        wallet.addGabay(address(Gabay));
+      wallet.addGabay(vm.addr(1));
+      wallet.addGabay(vm.addr(2));
+      wallet.addGabay(vm.addr(3));
+      assertEq(wallet.countowners(),3);
+      vm.expectRevert("There are already 3 owners");
+      wallet.addGabay(address(Gabay));
     }
 
     function testChangeGabay(address oldGabay, address newGabay) public{
@@ -95,9 +77,9 @@ contract fuzztestGabaim is Test {
       assertEq(wallet.owners(address(newGabay)),true);
     }
 
-       function tesFaildtchangeGabay(address oldGabay) public {
-        wallet.addGabay(oldGabay);
-        vm.expectRevert("The Gabay not exist");
-        wallet.changeGabay(address(4),address(3));
+    function tesFaildtchangeGabay(address oldGabay) public {
+      wallet.addGabay(oldGabay);
+      vm.expectRevert("The Gabay not exist");
+      wallet.changeGabay(address(4),address(3));
     }
 }

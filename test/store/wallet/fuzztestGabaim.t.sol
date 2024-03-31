@@ -77,7 +77,7 @@ contract fuzztestGabaim is Test {
       assertEq(wallet.owners(address(newGabay)),true);
     }
 
-    function tesFaildtchangeGabay(address oldGabay, address newGabay) public {
+    function tesFaildchangeGabay(address oldGabay, address newGabay) public {
       vm.expectRevert("The Gabay not exist");
       wallet.changeGabay(address(oldGabay),address(newGabay));
     }

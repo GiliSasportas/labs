@@ -74,7 +74,7 @@ contract testGabaim is Test {
 
     }
 
-    function tesFaildtchangeGabay() public {
+    function tesFaildchangeGabay() public {
         wallet.addGabay(address(4));
         vm.expectRevert("The Gabay not exist");
         wallet.changeGabay(address(5),address(3));

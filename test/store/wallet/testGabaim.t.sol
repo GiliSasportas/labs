@@ -21,11 +21,12 @@ contract testGabaim is Test {
     }
 
     function testWithdraw() public{ 
-        payable(wallet).transfer(100);
-        uint balances= wallet.getBalance();
         address add=vm.addr(20);
+        vm.deal(add,1000);
         wallet.addGabay(add);
         vm.startPrank(add);
+        payable(wallet).transfer(100);
+        uint balances= wallet.getBalance();
         wallet.withdraw(50);
         assertEq(wallet.getBalance(), balances - 50,"withdraw failed");   
         vm.stopPrank();

@@ -20,7 +20,9 @@ contract Gabaim{
     }
        
     function withdraw(uint256 num) payable  public isOrOwnerGabay{
+      
        payable(msg.sender).transfer(num);
+
     }
 
 

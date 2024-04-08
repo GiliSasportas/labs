@@ -16,17 +16,24 @@ contract myToken is IERC20{
        return true;
     }
 
-    function approve(address spender, uint256 amount) external returns (bool){
+    function approve(address spender, uint256 amount) external  returns (bool){
         allowance[msg.sender][spender]=amount;
         return true;
     }
     
-
     function transferFrom(address from, address to, uint256 amount) external returns (bool){
+        // bool y = approve(to, amount);
+        // require(y, "Approval failed");
+       // require(allowance[from][msg.sender] >= amount, "Transfer not authorized");
         allowance[from][msg.sender]-=amount;
         balanceOf[from]-=amount;
         balanceOf[to]+=amount;
         return true;
+    }
+    
+    function mint(address to ,uint256 amount)public{
+        balanceOf[to] += amount;   
+        totalSupply+=amount; 
     }
 
     function name() external view returns (string memory){
@@ -43,40 +50,3 @@ contract myToken is IERC20{
     }
 
 }
-
-struct User{
-    uint sum;
-    uint date;
-}
-contract StakeTogether {
-    
-    uint256 public rewards=1000000;
-    myToken t; 
-    mapping(address => User) public staking;
-    constructor(address token){
-        token=new myToken();
-    }
-
-    receive()external payable {}
-
-    function stake(uint amount) public{
-        staking[msg.sender].sum+=amount;
-        staking[msg.sender].date=block.timestamp();
-        t.transfer(address(this), amount);
-    }
-
-    function whithdraw(uint amount) public{
-        (msg.sender).transfer(amount);
-         staking[msg.sender].sum-=amount;
-
-
-    }
-
-    function getReward() public{
-        require(staking[msg.sender].date>block.timestamp()+7 days);
-        uint b=(staking[msg.sender].sum/t.totalSupply())*100;
-        5000/25000
-        
-    }
-
-    }

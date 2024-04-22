@@ -11,6 +11,8 @@ contract StakeTest is Test {
     Stake  s;
     myToken  t;
 
+    uint wad=18**10;
+
 
     function setUp() public {
         t= new myToken();//IERC20
@@ -18,37 +20,47 @@ contract StakeTest is Test {
     }
 
     function testMint() public {
+        console.log(t.balanceOf(address(this)),"befor mint");
         t.mint(address(this),1000);
+        console.log(t.balanceOf(address(this)),"after mint");
         assertEq(t.balanceOf(address(this)), 1000);
      }
 
     function testStake() public{
         console.log("log",address(this),address(s));
         t.mint(address(this),100); 
-        t.approve(address(s), 50);//מסכים ל-stake למשוך 50
+        t.approve(address(s), 50);
+        console.log(t.balanceOf(address(this)),"befor stack");
         s.stake(50);
         assertEq(t.balanceOf(address(this)), 50);
+        assertEq(t.balanceOf(address(s)), 1000050);
     }
 
     function testwithdraw() public{
-        t.mint(address(this),100); 
-        t.approve(address(s), 50);//מסכים ל-stake למשוך 50
+        t.mint(address(this),1000); 
+        t.approve(address(s), 50);
         s.stake(50);
-        //t.transfer(s.staking[msg.sender].sum,100);
-       // uint256 b=s.staking[msg.sender].sum;
-        uint256 b= t.balanceOf(address(this));
-        console.log(b,"bbbbbb");
-        assertEq(t.balanceOf(address(this)), 50);
-        s.whithdraw(50);
-        uint256 c= t.balanceOf(address(this));
-
-        // uint256 bafter=s.staking[msg.sender].sum;
-        // console.log(b,"b",bafter,"bafter");
-        assertEq(t.balanceOf(address(this)), b-50);
+        assertEq(t.balanceOf(address(this)), 950);
+        vm.warp(block.timestamp + 7 days);
+        s.whithdraw();
+        assertEq(t.balanceOf(address(this)), 1000 +20000 );
+        assertEq(s.rewards(),980000);
     }
 
+    function testwithdrawBefor7Days() public{
+        t.mint(address(this),1000); 
+        t.approve(address(s), 50);
+        s.stake(50);
+        vm.warp(block.timestamp + 3 days);
+        vm.expectRevert("cannot withdraw before 7 days have passed");
+        s.whithdraw();
+    }
 
-    
+     function testwithdrawMoreOneUser() public{
+
+     }
 
 
+
+  
 }

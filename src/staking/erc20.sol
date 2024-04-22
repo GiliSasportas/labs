@@ -22,9 +22,6 @@ contract myToken is IERC20{
     }
     
     function transferFrom(address from, address to, uint256 amount) external returns (bool){
-        // bool y = approve(to, amount);
-        // require(y, "Approval failed");
-       // require(allowance[from][msg.sender] >= amount, "Transfer not authorized");
         allowance[from][msg.sender]-=amount;
         balanceOf[from]-=amount;
         balanceOf[to]+=amount;
@@ -37,16 +34,16 @@ contract myToken is IERC20{
     }
 
     function name() external view returns (string memory){
-        return "choin";
+        return "token";
     }
 
     function decimals() external view returns (uint8){
-        return 1;
+        return 10;
     }
 
 
     function symbol() external view returns (string memory){
-     return "c";
+     return "token";
     }
 
 }

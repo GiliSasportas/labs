@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
-import "lib/forge-std/src/interfaces/IERC20.sol";
-import "@hack/staking/erc20.sol";
+
 pragma solidity ^0.8.6;
 
     struct User{

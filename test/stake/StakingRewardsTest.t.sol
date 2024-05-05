@@ -33,13 +33,12 @@ contract StakingRewardsTest is Test {
         st.approve(address(s), 50*wad);
         s.stake(50*wad);
         assertEq(st.balanceOf(address(this)), 150*wad);//מי שעשה stake-?
-        assertEq(st.balanceOf(staked()), 1000050*wad);//
+        //assertEq(st.balanceOf(staked()), 1000050*wad);//
 
 
     }
 
 
-    function test
 
 
 

@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract divide{
+contract Divide{
 
-    mapping(address=> uint) public addresses;
+    address[] public addresses;
+
+    function addUser(address ad) public{
+      addresses.push(ad);
+
+    }
 
     function divideToAddresess() external payable{
         require(addresses.length > 0,"There are no users");

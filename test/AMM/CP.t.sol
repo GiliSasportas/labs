@@ -3,7 +3,7 @@ pragma solidity ^0.8.15;
 import "lib/forge-std/src/interfaces/IERC20.sol";
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
-import "@hack/swap/CP.sol";
+import "@hack/AMM/CP.sol";
 import "@hack/staking/erc20.sol";
 
 

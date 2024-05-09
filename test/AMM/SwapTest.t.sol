@@ -4,7 +4,7 @@ import "lib/forge-std/src/interfaces/IERC20.sol";
 
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
-import "@hack/swap/Swap.sol";
+import "@hack/AMM/Swap.sol";
 import "@hack/staking/erc20.sol";
 
 

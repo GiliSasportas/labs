@@ -4,7 +4,8 @@ import "lib/forge-std/src/interfaces/IERC20.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 
 contract Auction{
-    IERC20 public coin;
+    
+    IERC20 public token;
     IERC721 public NFT;
     bool started=false;
     address public owner;
@@ -13,6 +14,12 @@ contract Auction{
     uint256 public maxBid;
     uint256 public amountDays;
     uint256 public endAt;
+
+    constructor(address tokenErc20,address tokenErc721 ){
+        owner = msg.sender;
+        token=IERC20(tokenErc20);
+        NFT= IERC721(tokenErc721);
+    }
 
      modifier isOwner() {
        require(msg.sender==owner,"not owner ");
@@ -27,6 +34,7 @@ contract Auction{
     }
 
     function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public isOwner{
+        require(NFT.ownerOf(tokenId) == nftOwner) ;
         require(started == false);
         started=true;     
         uint256 finish= block.timestamp+ (_days * 1 days);
@@ -38,16 +46,17 @@ contract Auction{
 
     function suggest( ) public payable bidder{
         if(NFTaddress != bidAddress){
-           coin.transfer(bidAddress,maxBid);
+           token.transfer(bidAddress,maxBid);
         }
         maxBid=msg.value;
         bidAddress= msg.sender;
-        coin.transferFrom(msg.sender,address(this),msg.value);
+        token.transferFrom(msg.sender,address(this),msg.value);
     }
 
     function endAction( ) public payable {
         require(block.timestamp >= endAt,"cannot transfer before days have passed");
-        coin.transfer(NFTaddress,address(this).balance);
+        token.transfer(NFTaddress,address(this).balance);
         NFT.transferFrom(address(this), bidAddress, address(this).balance);
+        started=false;
     }
 }

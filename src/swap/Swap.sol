@@ -4,14 +4,14 @@ import "@hack/staking/erc20.sol";
 import "forge-std/console.sol";
 pragma solidity ^0.8.6;
 contract Swap{
-
+    uint256 wad = 10*18;
     myToken tokenA;
     myToken tokenB;
-    uint256 public balanceA=10;
-    uint256 public balanceB=10;
+    uint256 public balanceA=1000 * wad;
+    uint256 public balanceB=1000 * wad;
     address owner;
     //uint256 public k;
-    uint256 wad = 10*18;
+    
     mapping(address => uint256) public Provides_liquidity;
 
     constructor(address _tokenA,address _tokenB){
@@ -30,7 +30,6 @@ contract Swap{
 
     function tradeAToB(uint256 amountA) public {
         require(amountA>0);
-        console.log("qwer");
         uint256 decreaseB = amountA * priceA();  
         console.log(decreaseB,"123");
         tokenA.transferFrom(msg.sender, address(this) , amountA); 

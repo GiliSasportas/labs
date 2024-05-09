@@ -14,7 +14,7 @@ contract SwapTest is Test {
     myToken A;
     myToken B;
     uint256 wad =10*18;
-1
+
     function setUp() public {
         A=new myToken();
         B=new myToken();

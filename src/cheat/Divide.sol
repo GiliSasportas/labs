@@ -7,7 +7,6 @@ contract Divide{
 
     function addUser(address ad) public{
       addresses.push(ad);
-
     }
 
     function divideToAddresess() external payable{

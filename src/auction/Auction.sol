@@ -2,6 +2,8 @@
 pragma solidity ^0.8.20;
 import "lib/forge-std/src/interfaces/IERC20.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+import "@hack/auction/MyERC721.sol";
+import "forge-std/console.sol";
 
 contract Auction{
     
@@ -9,9 +11,9 @@ contract Auction{
     IERC721 public NFT;
     bool started=false;
     address public owner;
-    address public bidAddress;
+    address public bidAddress = 0x052b91ad9732D1bcE0dDAe15a4545e5c65D02443;
     address public NFTaddress;
-    uint256 public maxBid;
+    uint256 public maxBid=5;
     uint256 public amountDays;
     uint256 public endAt;
 
@@ -27,28 +29,37 @@ contract Auction{
     }
 
     modifier bidder() {
+        console.log(msg.value, "msg.value");
        require(msg.value > maxBid,"the value less from max");
-       require(started == true);
-       require(block.timestamp < endAt);
+       require(started == true,"not started");
+       require(block.timestamp < endAt, "finish auction");
         _; 
     }
 
-    function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public isOwner{
-        require(NFT.ownerOf(tokenId) == nftOwner) ;
+    function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public {
+        console.log(NFT.ownerOf(tokenId), "owner nft");
+        require(NFT.ownerOf(tokenId) == nftOwner, "not owner") ;
         require(started == false);
         started=true;     
         uint256 finish= block.timestamp+ (_days * 1 days);
         endAt=finish;
         maxBid=amount;
         NFTaddress=nftOwner;
+      //  NFT.approve();
         NFT.transferFrom(nftOwner, address(this), tokenId);
     }
 
     function suggest( ) public payable bidder{
+        console.log("ttttttttttt",NFTaddress,bidAddress);
+        
         if(NFTaddress != bidAddress){
+           console.log(token.balanceOf(address(this)),"yyyyyyyyy");
            token.transfer(bidAddress,maxBid);
         }
+        console.log(maxBid,"maxBid");
+        require(msg.value > maxBid,"the value less from max");
         maxBid=msg.value;
+        console.log(maxBid,"maxBid");
         bidAddress= msg.sender;
         token.transferFrom(msg.sender,address(this),msg.value);
     }

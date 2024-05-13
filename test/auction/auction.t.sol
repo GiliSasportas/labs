@@ -3,11 +3,11 @@ pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
-import "@hack/auction/Auction.sol";
+import "@hack/auction/auction.sol";
 import "lib/forge-std/src/interfaces/IERC20.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import "@hack/staking/erc20.sol";
-import "@hack/auction/MyERC721.sol";
+import "@hack/auction/myERC721.sol";
 
 contract AuctionTest is Test {
 

@@ -11,7 +11,7 @@ contract Auction{
     IERC721 public NFT;
     bool started=false;
     address public owner;
-    address public bidAddress = 0x052b91ad9732D1bcE0dDAe15a4545e5c65D02443;
+    address public bidAddress;
     address public NFTaddress;
     uint256 public maxBid=5;
     uint256 public amountDays;
@@ -29,7 +29,6 @@ contract Auction{
     }
 
     modifier bidder() {
-        console.log(msg.value, "msg.value");
        require(msg.value > maxBid,"the value less from max");
        require(started == true,"not started");
        require(block.timestamp < endAt, "finish auction");
@@ -45,21 +44,15 @@ contract Auction{
         endAt=finish;
         maxBid=amount;
         NFTaddress=nftOwner;
-      //  NFT.approve();
         NFT.transferFrom(nftOwner, address(this), tokenId);
     }
 
     function suggest( ) public payable bidder{
-        console.log("ttttttttttt",NFTaddress,bidAddress);
-        
         if(NFTaddress != bidAddress){
-           console.log(token.balanceOf(address(this)),"yyyyyyyyy");
            token.transfer(bidAddress,maxBid);
         }
-        console.log(maxBid,"maxBid");
         require(msg.value > maxBid,"the value less from max");
         maxBid=msg.value;
-        console.log(maxBid,"maxBid");
         bidAddress= msg.sender;
         token.transferFrom(msg.sender,address(this),msg.value);
     }

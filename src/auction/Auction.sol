@@ -35,7 +35,7 @@ contract Auction{
         _; 
     }
 
-    function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public {
+    function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public isOwner{
         console.log(NFT.ownerOf(tokenId), "owner nft");
         require(NFT.ownerOf(tokenId) == nftOwner, "not owner") ;
         require(started == false);

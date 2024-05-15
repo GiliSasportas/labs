@@ -14,7 +14,6 @@ contract Auction{
     address public bidAddress;
     address public NFTaddress;
     uint256 public maxBid=5;
-    uint256 public amountDays;
     uint256 public endAt;
 
     constructor(address tokenErc20,address tokenErc721 ){
@@ -23,7 +22,7 @@ contract Auction{
         NFT= IERC721(tokenErc721);
     }
 
-     modifier isOwner() {
+    modifier isOwner() {
        require(msg.sender==owner,"not owner ");
         _; 
     }
@@ -47,7 +46,7 @@ contract Auction{
         NFT.transferFrom(nftOwner, address(this), tokenId);
     }
 
-    function suggest( ) public payable bidder{
+    function suggest( ) public bidder{
         if(NFTaddress != bidAddress){
            token.transfer(bidAddress,maxBid);
         }
@@ -57,7 +56,7 @@ contract Auction{
         token.transferFrom(msg.sender,address(this),msg.value);
     }
 
-    function endAction( ) public payable {
+    function endAction( ) public {
         require(block.timestamp >= endAt,"cannot transfer before days have passed");
         token.transfer(NFTaddress,address(this).balance);
         NFT.transferFrom(address(this), bidAddress, address(this).balance);

@@ -20,12 +20,8 @@ contract AuctionTest is Test {
     address ownerNft= vm.addr(111);    
         
     function setUp() public {
-        //address ownerNft= vm.addr(111);
-        //vm.startPrank(ownerNft);
         i= new myToken();
         erc721=new MyERC721(name,symbole);
-        //erc721.approve(address(this) , 1);
-        erc721.mint(ownerNft ,1);
         A = new Auction(address(i),address(erc721));
     }
 
@@ -35,38 +31,40 @@ contract AuctionTest is Test {
         console.log(i.balanceOf(address(this)),"after mint");
         assertEq(i.balanceOf(address(this)), 10000*wad);
 
-     }
+    }
 
     function testStartAction() public{
-        console.log("nnnnnnnnn",erc721.ownerOf(1));
         vm.startPrank(ownerNft);
-        erc721.approve(address(A), 1);
+        start();
         A.startAction(7, ownerNft, 1, 10);
-        console.log("balance 1",erc721.balanceOf(address(A)));
         assertEq(erc721.balanceOf(address(A)), 1);
         vm.stopPrank();
     }
 
     function testSuggest() payable public{
-        i.mint(address(this),10000*wad);
+        testStartAction();
         address a=vm.addr(11);
         vm.startPrank(a);
-        vm.deal(a,50);
-        console.log(a.balance,"value");
-        console.log(msg.value, "aaa");
-        testStartAction();
-        i.approve(address(A), 2000*wad);
-        i.approve(a, 2000*wad);
-        A.suggest{value:a.balance}();
-        assertEq(a.balance, 0);
+        console.log();
+        vm.deal(a,100);
+        suggest();
+        A.suggest(100);
+        assertEq(i.balanceOf(a), 0);
+        assertEq(A.bidAddress(), a);
+        assertEq(A.maxBid(), 100);
         vm.stopPrank();
     }
 
-    // function testEndAction() public{
-    //     A.endAt();
-    //     assertEq(i.balanceOf(address(nft)));
-    //     assertEq(i.balanceOf(A.bidAddress().balance));
-    // }
+    function suggest() public{
+        i.mint(address(this),10000*wad);
+        i.approve(address(A), 2000*wad);
+   
+    }
+
+    function start() public{
+        erc721.mint(ownerNft ,1);
+        erc721.approve(address(A), 1);
+    }
 
 
 }

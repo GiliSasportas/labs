@@ -22,19 +22,13 @@ contract Auction{
         NFT= IERC721(tokenErc721);
     }
 
-    modifier isOwner() {
+     modifier isOwner() {
        require(msg.sender==owner,"not owner ");
         _; 
     }
 
-    modifier bidder() {
-       require(msg.value > maxBid,"the value less from max");
-       require(started == true,"not started");
-       require(block.timestamp < endAt, "finish auction");
-        _; 
-    }
 
-    function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public isOwner{
+    function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public {
         console.log(NFT.ownerOf(tokenId), "owner nft");
         require(NFT.ownerOf(tokenId) == nftOwner, "not owner") ;
         require(started == false);
@@ -46,14 +40,20 @@ contract Auction{
         NFT.transferFrom(nftOwner, address(this), tokenId);
     }
 
-    function suggest( ) public bidder{
-        if(NFTaddress != bidAddress){
-           token.transfer(bidAddress,maxBid);
-        }
-        require(msg.value > maxBid,"the value less from max");
-        maxBid=msg.value;
+    function suggest(uint amount ) public  {
+        require(amount > maxBid,"the value less from max");
+        require(started == true,"not started");
+        require(block.timestamp < endAt, "finish auction");
+        // if(NFTaddress != bidAddress){
+        //    token.transfer(bidAddress,maxBid);
+        // }
+        require(amount > maxBid,"the value less from max");
+        maxBid=amount;
         bidAddress= msg.sender;
-        token.transferFrom(msg.sender,address(this),msg.value);
+        console.log(msg.sender.balance, "aaa");
+        console.log(address(this).balance, "aaa");
+        //token.transferFrom(msg.sender,address(this),amount);
+
     }
 
     function endAction( ) public {
@@ -63,3 +63,6 @@ contract Auction{
         started=false;
     }
 }
+
+
+

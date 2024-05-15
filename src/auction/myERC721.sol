@@ -8,7 +8,4 @@ contract MyERC721 is ERC721 {
         _mint(to, tokenId);
     }
 
-    // function approve(address to, uint256 tokenId) public  {
-    //     _approve(to, tokenId, _msgSender());
-    // }
 }

@@ -18,6 +18,7 @@ contract AuctionTest is Test {
     string  name = "gili";
     string  symbole = "tamar";
     address ownerNft= vm.addr(111);    
+    address a=vm.addr(11);
         
     function setUp() public {
         i= new myToken();
@@ -26,9 +27,7 @@ contract AuctionTest is Test {
     }
 
     function testMint() public {
-        console.log(i.balanceOf(address(this)),"befor mint");
         i.mint(address(this),10000*wad);
-        console.log(i.balanceOf(address(this)),"after mint");
         assertEq(i.balanceOf(address(this)), 10000*wad);
 
     }
@@ -43,22 +42,19 @@ contract AuctionTest is Test {
 
     function testSuggest() payable public{
         testStartAction();
-        address a=vm.addr(11);
         vm.startPrank(a);
         console.log();
-        vm.deal(a,100);
         suggest();
-        A.suggest(100);
-        assertEq(i.balanceOf(a), 0);
+        A.suggest(100 );
+        assertEq(i.balanceOf(a), 10000*wad -100);
         assertEq(A.bidAddress(), a);
         assertEq(A.maxBid(), 100);
         vm.stopPrank();
     }
 
     function suggest() public{
-        i.mint(address(this),10000*wad);
+        i.mint(address(a),10000*wad);
         i.approve(address(A), 2000*wad);
-   
     }
 
     function start() public{

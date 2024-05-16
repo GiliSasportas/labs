@@ -29,7 +29,6 @@ contract Auction{
 
 
     function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public {
-        console.log(NFT.ownerOf(tokenId), "owner nft");
         require(NFT.ownerOf(tokenId) == nftOwner, "not owner") ;
         require(started == false);
         started=true;     
@@ -50,9 +49,7 @@ contract Auction{
         require(amount > maxBid,"the value less from max");
         maxBid=amount;
         bidAddress= msg.sender;
-        console.log(msg.sender.balance, "aaa");
-        console.log(address(this).balance, "aaa");
-        //token.transferFrom(msg.sender,address(this),amount);
+        token.transferFrom(msg.sender,address(this),amount);
 
     }
 

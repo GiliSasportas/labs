@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 import "lib/forge-std/src/interfaces/IERC20.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
-import "@hack/auction/MyERC721.sol";
+import "@hack/auction/myERC721.sol";
 import "forge-std/console.sol";
 
 contract Auction{
@@ -11,10 +11,9 @@ contract Auction{
     IERC721 public NFT;
     bool started=false;
     address public owner;
-    address public bidAddress = 0x052b91ad9732D1bcE0dDAe15a4545e5c65D02443;
+    address public bidAddress;
     address public NFTaddress;
     uint256 public maxBid=5;
-    uint256 public amountDays;
     uint256 public endAt;
 
     constructor(address tokenErc20,address tokenErc721 ){
@@ -28,13 +27,6 @@ contract Auction{
         _; 
     }
 
-    modifier bidder() {
-        console.log(msg.value, "msg.value");
-       require(msg.value > maxBid,"the value less from max");
-       require(started == true,"not started");
-       require(block.timestamp < endAt, "finish auction");
-        _; 
-    }
 
     function startAction(uint256 _days,address nftOwner, uint256 tokenId, uint256 amount) public {
         console.log(NFT.ownerOf(tokenId), "owner nft");
@@ -45,30 +37,32 @@ contract Auction{
         endAt=finish;
         maxBid=amount;
         NFTaddress=nftOwner;
-      //  NFT.approve();
         NFT.transferFrom(nftOwner, address(this), tokenId);
     }
 
-    function suggest( ) public payable bidder{
-        console.log("ttttttttttt",NFTaddress,bidAddress);
-        
-        if(NFTaddress != bidAddress){
-           console.log(token.balanceOf(address(this)),"yyyyyyyyy");
-           token.transfer(bidAddress,maxBid);
-        }
-        console.log(maxBid,"maxBid");
-        require(msg.value > maxBid,"the value less from max");
-        maxBid=msg.value;
-        console.log(maxBid,"maxBid");
+    function suggest(uint amount ) public  {
+        require(amount > maxBid,"the value less from max");
+        require(started == true,"not started");
+        require(block.timestamp < endAt, "finish auction");
+        // if(NFTaddress != bidAddress){
+        //    token.transfer(bidAddress,maxBid);
+        // }
+        require(amount > maxBid,"the value less from max");
+        maxBid=amount;
         bidAddress= msg.sender;
-        console.log(bidAddress, "11111111111111111");
-        token.transferFrom(msg.sender,address(this),msg.value);
+        console.log(msg.sender.balance, "aaa");
+        console.log(address(this).balance, "aaa");
+        //token.transferFrom(msg.sender,address(this),amount);
+
     }
 
-    function endAction( ) public payable {
+    function endAction( ) public {
         require(block.timestamp >= endAt,"cannot transfer before days have passed");
         token.transfer(NFTaddress,address(this).balance);
         NFT.transferFrom(address(this), bidAddress, address(this).balance);
         started=false;
     }
 }
+
+
+

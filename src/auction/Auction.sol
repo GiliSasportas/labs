@@ -61,6 +61,7 @@ contract Auction{
         maxBid=msg.value;
         console.log(maxBid,"maxBid");
         bidAddress= msg.sender;
+        console.log(bidAddress, "11111111111111111");
         token.transferFrom(msg.sender,address(this),msg.value);
     }
 

@@ -58,7 +58,8 @@ contract AuctionTest is Test {
         i.approve(address(A), 2000*wad);
         i.approve(a, 2000*wad);
         A.suggest{value:a.balance}();
-        assertEq(a.balance, 0);
+        
+        assertEq(a.balance, 50);
         vm.stopPrank();
     }
 

@@ -5,12 +5,11 @@ import "lib/forge-std/src/interfaces/IERC20.sol";
 
 contract Lending{
 
-
     struct Borrower{
         uint  amountCollateral;//בטחונות
         uint  amountBorrow;//כמה הלואה
     }
-    
+    address public owner;
     IERC20 public  tokenDAI;
     IERC20 public tokenLending;
     IERC20 public tokenETH;
@@ -22,12 +21,13 @@ contract Lending{
     uint public ratio = 0.66;//=1/1.5
     uint ETHvalue = 1000;
     uint wad=10**18;
-    uint fee=1.2;
+    uint fee=1.02;
     
      constructor(address _tokenDAI,address _tokenLending,address _tokenETH){
         tokenDAI=IERC20(_tokenDAI);
         tokenLending=IERC20(_tokenLending);
         tokenETH=IERC20(_tokenETH);
+        owner=msg.sender;
     }
 
      modifier isPositive(uint amount) {
@@ -97,6 +97,17 @@ contract Lending{
         for (uint256 index = 0; index < array.length; index++) {
             sale();
         }
+    }
+
+    function harvestRewards()public {
+        tokenLending.transfer(address(owner),borrowedValue*0.02);
+    }
+
+    function  exchange() public{
+        //שולח ל-uniswap
+        //uint valueDAI=collateralValue*0.05;
+        poolValue+valueDAI;
+        collateralValue-=valueDAI;
     }
 }
 

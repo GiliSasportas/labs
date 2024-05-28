@@ -1,7 +1,4 @@
 
-
-
-
 // This method m takes a non-empty set of natural numbers (items) as input and returns a
 // natural number (r). It retrieves and returns an arbitrary element from the set items.
 // |items| denotes the cardinality of the set, which represents the number of elements in the set.

@@ -8,7 +8,6 @@ import opened Number
 import opened Maps
 import opened Tx
 
-
 class ERC20 {
     // a 160-bit unsigned integer that uniquely identifies the address. However,
     // this value is not directly used as the external representation, that is in u256

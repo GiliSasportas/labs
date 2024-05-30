@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicense
+`//SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
@@ -76,33 +76,33 @@ contract BondToken is ERC20Burnable, Ownable, Math {
 
     constructor() ERC20("Bond DAI", "bDAI") {}
 
-    function bondAsset(uint256 _amount) external {
+    function bondAsset(uint256 _amount) external { //supply Dai
         dai.transferFrom(msg.sender, address(this), _amount);
         totalDeposit += _amount;
         _sendDaiToAave(_amount);
         uint256 bondsToMint = getExp(_amount, getExchangeRate());
-        _mint(msg.sender, bondsToMint);
+        _mint(msg.sender, bondsToMint);//מנפיק אגרות חוב
     }
 
     function unbondAsset(uint256 _amount) external {
         require(_amount <= balanceOf(msg.sender), "Not enough bonds!");
-        uint256 daiToReceive = mulExp(_amount, getExchangeRate());
+        uint256 daiToReceive = mulExp(_amount, getExchangeRate());//מחזיר כמה אגרות חוב יש ל-msg.sender
         totalDeposit -= daiToReceive;
-        burn(_amount);
-        _withdrawDaiFromAave(daiToReceive);
+        burn(_amount);//שורף
+        _withdrawDaiFromAave(daiToReceive);//מעביר מ- avee Dai to msg.sender
     }
 
-    function addCollateral() external payable {
+    function addCollateral() external payable {// הוספת בטחונות
         require(msg.value != 0, "Cant send 0 ethers");
         usersCollateral[msg.sender] += msg.value;
         totalCollateral += msg.value;
-        _sendWethToAave(msg.value);
+        _sendWethToAave(msg.value);// send to avee
     }
 
     function removeCollateral(uint256 _amount) external {
-        uint256 wethPrice = uint256(_getLatestPrice());
+        uint256 wethPrice = uint256(_getLatestPrice());// return the price of eth
         uint256 collateral = usersCollateral[msg.sender];
-        require(collateral > 0, "Dont have any collateral");
+        require(collateral > 0,- "Dont have any collateral");
         uint256 borrowed = usersBorrowed[msg.sender];
         uint256 amountLeft = mulExp(collateral, wethPrice).sub(borrowed);
         uint256 amountToRemove = mulExp(_amount, wethPrice);
@@ -284,7 +284,4 @@ contract BondToken is ERC20Burnable, Ownable, Math {
         return amountOut;
     }
 
-    receive() external payable {}
-
-    fallback() external payable {}
 }

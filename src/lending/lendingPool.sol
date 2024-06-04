@@ -291,5 +291,4 @@ contract BondToken is ERC20Burnable, Ownable, Math {
         uniswapRouter.refundETH();
         return amountOut;
     }
-
 }

@@ -1,36 +1,56 @@
-use option::OptionTrait;
-use debug::PrintTrait;
 
-// Define an enum
-enum MyEnum {
-    A: u8,
-    B: u16,
-    C: u32,
-    D: u64
-}
+use array::ArrayTrait;
 
-// It will print 'Got something else'
-fn main() {
-    let x = my_enum_a();
-    let y = my_enum_get_b(x);
-    match y {
-        Option::Some(x) => 'Got B'.print(),
-        Option::None(()) => 'Got something else'.print(),
-    } 
-}
+  fn rotateImage(imageData: Array<felt252> , degrees:felt252) -> felt252 {
+    let width: felt252 = sqrt(imageData.len());
+    let height = width;
+    let mut rotatedImage = ArrayTrait::new();
+    if degrees==90 {
+        let mut i:felt252 = 0;
+        let mut j:felt252 = 0;
+        loop {
+            if i >= width {
+                breake();
+            }
+            loop {
+                if j >= height {
+                    breake();
+                }
+                let newIndex: felt = (j * width) + (width - i - 1);
+                imageData.get(newIndex) = imageData.get(i * height + j);
+            }
+                j=j+1;
+        }
+                i=i+1;
 
-// Construct and return an enum variant.
-fn my_enum_a() -> MyEnum {
-    MyEnum::A(4_u8)
-}
-
-// Match the enum, the order must match the enum definition.
-// Option is also an enum.
-fn my_enum_get_b(x: MyEnum) -> Option::<u16> {
-    match x {
-        MyEnum::A(x) => Option::None(()),
-        MyEnum::B(x) => Option::Some(x),
-        MyEnum::C(x) => Option::None(()),
-        MyEnum::D(x) => Option::None(()),
     }
-}
+    else
+       if degrees == 270 {
+        let i:felt = 0;
+        let j:felt = 0;
+        loop{
+            if i>=width {
+                breake();
+            }
+            loop{
+                if j >= height{
+                    breake();
+                }
+                let newIndex:felt = ((height - j - 1) * width) + i;
+                rotatedImage.get(newIndex)=imageData.get(i * height + j)
+            }
+                j=j+1;
+        }
+                i=i+1;
+    }
+    else{
+        //throw new IllegalArgumentException("Unsupported rotation angle: " + degrees);///////?
+    }
+
+   return rotatedImage;
+
+  }
+
+
+
+

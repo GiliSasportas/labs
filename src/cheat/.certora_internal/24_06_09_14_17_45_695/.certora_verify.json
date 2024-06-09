@@ -1,0 +1,8 @@
+{
+    "importFilesToOrigRelpaths": {},
+    "primary_contract": "ERC20",
+    "specfile": "/home/user/labs/src/cheat/certora.spec",
+    "specfileOrigRelpath": "certora.spec",
+    "specfilesToImportDecls": {},
+    "type": "spec"
+}

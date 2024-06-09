@@ -1,0 +1,8 @@
+{
+    "importFilesToOrigRelpaths": {},
+    "primary_contract": "ERC20",
+    "specfile": "certora.spec",
+    "specfileOrigRelpath": "certora.spec",
+    "specfilesToImportDecls": {},
+    "type": "spec"
+}

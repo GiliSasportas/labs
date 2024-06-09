@@ -43,6 +43,6 @@ pragma solidity >=0.7.0 <=0.9.0;
         require(
               msg.sender==chairperson,
             "Only chairprson can give to vote."
-        ) 
+        ) ;
     }
   }

@@ -1,0 +1,25 @@
+{
+    "CLI_version": "7.6.3",
+    "branch": "master",
+    "certora_ci_client": null,
+    "conf": {
+        "files": [
+            "ERC20.sol"
+        ],
+        "process": "emv",
+        "verify": "ERC20:certora.spec"
+    },
+    "conf_path": null,
+    "cwd_relative": "src/cheat",
+    "dirty": true,
+    "main_spec": "certora.spec",
+    "origin": "git@github.com:GiliSasportas/labs.git",
+    "raw_args": [
+        "/home/user/.local/bin/certoraRun",
+        "ERC20.sol",
+        "--verify",
+        "ERC20:certora.spec"
+    ],
+    "revision": "cb7c762d504447575528007dba4c612488d7d4aa",
+    "timestamp": "1717921221.27535"
+}
